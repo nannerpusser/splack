@@ -1,0 +1,25 @@
+{
+    "_meta": {
+        "hash": {
+            "sha256": "72012bce0422abfc8e8e570c6a8c72aa41d64b8ed4313a2027cee9be78363308"
+        },
+        "pipfile-spec": 6,
+        "requires": {
+            "python_version": "3.12"
+        },
+        "sources": [
+            {
+                "name": "pypi",
+                "url": "https://pypi.org/simple",
+                "verify_ssl": true
+            }
+        ]
+    },
+    "default": {
+        "google-api-python-client": "2.156.0",
+        "prompt-toolkit": "3.0.48",
+        "python-dotenv": "1.0.1",
+        "rich": "*"
+    },
+    "develop": {}
+}

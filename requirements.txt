@@ -1,0 +1,4 @@
+google_api_python_client==2.156.0
+prompt_toolkit==3.0.48
+python-dotenv==1.0.1
+rich==13.9.4
