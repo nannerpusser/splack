@@ -33,16 +33,17 @@ Yb..   8    8 8 .oooo8 8    ' 8oP'
 :::::::..::::::::::::::::::::::::::::
 '''
 
-status_msg = "Press Ctrl-C to exit"
+
+
 # Styling for prompt_toolkit
 style = Style.from_dict({
     'title': '#ff9d00',
-    'channel': '#00ff00',
     'video-id': '#009dff',
     'descriptiontext': '#7f7f7f',
-    'prompter': '#71bde9',
     'underline': 'underline',
     'nores': '#ff0000',
+    'bottom-toolbar': '#dfa231 bg:#dfa231',
+    'bottom-toolbar.text': 'bold #464646 bg:#dfa231',
     'skyblue': '#71bde9'
 })
 
@@ -162,25 +163,22 @@ def quit_dialog():
 
 
 def get_toolbar():
-    
-    return HTML(status_msg)
+
+    return [('class:bottom-toolbar', ' Press Ctrl+C to exit.')]
 
 
 def main():
-    global status_msg
     try:
         print_formatted_text(ANSI(splack_logo), style=style)
         while True:
             
             search_type = prompt(HTML("<style>Do you want to search for (<skyblue>v</skyblue>)ideo or (<skyblue>p</skyblue>)laylist? </style>"), style=style, bottom_toolbar=get_toolbar, refresh_interval=0.02).lower()
             if search_type not in ['v', 'p']:
-                status_msg = "Invalid option. Please choose 'v' for video or 'p' for playlist."
                 print_formatted_text(HTML("Invalid option. Please choose '<skyblue>v</skyblue>' for video or '<skyblue>p</skyblue>' for playlist.\n"), style=style)
                 continue
 
             query = prompt(HTML("Enter your search query: "), style=style, bottom_toolbar=get_toolbar, refresh_interval=0.02)
             if not query:
-                status_msg = "Please enter a valid search query."
                 print_formatted_text(HTML("Please enter a valid search query"), style=style)
                 continue
 
@@ -192,14 +190,13 @@ def main():
                 results = search_youtube(query, 'playlist', max_results)
 
             if not results:
-                status_msg = "No results found."
                 print("No results!")
                 continue
 
             table = Table(title="Search Results", show_header=True, header_style="italic", expand=False, safe_box=True, collapse_padding=True, box=box.HEAVY)
             table.add_column(" # ", style="#f0f0f0", min_width=4, no_wrap=True)
             table.add_column("Title", style="#88ccdd", max_width=35, no_wrap=True)
-            table.add_column("Link", style="#ff33ee", max_width=10, no_wrap=True)
+            table.add_column("Link", style="#2f497a", max_width=10, no_wrap=True)
             table.add_column("Description", style="dim #c5c5c5", no_wrap=True)
             
             for i, result in enumerate(results, start=1):
@@ -219,11 +216,9 @@ def main():
                     try:
                         choice = int(choice)
                     except ValueError:
-                        status_msg = "Invalid input. Please enter a valid number."
                         print_formatted_text(HTML("Invalid input. Please enter a valid number."), style=style)
                         continue
                 else:
-                    status_msg = "Invalid input. Please enter a valid number."
                     print_formatted_text(HTML("Invalid input. Please enter a valid number."), style=style)
                     continue
                 if choice < 1 or choice > len(results):
@@ -232,7 +227,6 @@ def main():
                 
                 choice -= 1
                 if search_type == 'v':
-                    status_msg = f"Playing: {results[choice]['title']}"
                     print_formatted_text(HTML(f"Playing: <title>{escape(results[choice]['title'])}</title>"), style=style)
                     stream_video(results[choice]['videoId'])
                 else:
